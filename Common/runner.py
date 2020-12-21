@@ -8,6 +8,7 @@ class Worker:
         self.config = config
         self._state_shape = self.config["state_shape"]
         self._env = make_mario(self.config["env_name"])
+        self._env.seed(123)
         self._stacked_states = np.zeros(self._state_shape, dtype=np.uint8)
         self._score = 0
 

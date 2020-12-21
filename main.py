@@ -5,6 +5,7 @@ from Common.config import get_params
 from Common.logger import Logger
 from torch.multiprocessing import Process, Pipe
 import numpy as np
+import torch
 from Brain.brain import Brain
 from nes_py.wrappers import JoypadSpace
 import gym_super_mario_bros
@@ -17,6 +18,9 @@ def run_workers(worker, conn):
 
 
 if __name__ == '__main__':
+    np.random.seed(123)
+    torch.random.manual_seed(123)
+
     config = get_params()
 
     config.update({"env_name": "SuperMarioBros-" + str(config['world']) + "-" + str(config['stage']) + "-v0"})

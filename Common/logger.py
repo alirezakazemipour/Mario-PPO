@@ -65,6 +65,7 @@ class Logger:
         self.experiment.log_metric("Running Value Loss", self.running_training_logs[1], step=iteration)
         self.experiment.log_metric("Running Entropy", self.running_training_logs[2], step=iteration)
         self.experiment.log_metric("Running Explained variance", self.running_training_logs[3], step=iteration)
+        self.experiment.log_metric("Clip Range", self.brain.epsilon, step=iteration)
 
         self.off()
         if iteration % self.config["interval"] == 0:
