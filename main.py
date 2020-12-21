@@ -35,15 +35,8 @@ if __name__ == '__main__':
 
     if config["do_train"]:
         if not config["train_from_scratch"]:
-            checkpoint = logger.load_weights()
-            brain.set_from_checkpoint(checkpoint)
-            running_reward = checkpoint["running_reward"]
-            init_iteration = checkpoint["iteration"]
-            episode = checkpoint["episode"]
-            position = checkpoint["position"]
-            logger.running_reward = running_reward
-            logger.episode = episode
-            logger.position = position
+            running_reward, init_iteration, episode, position = logger.load_weights()
+
         else:
             init_iteration = 0
             running__reward = 0

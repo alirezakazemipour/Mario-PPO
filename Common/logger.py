@@ -112,7 +112,11 @@ class Logger:
                     "iteration": iteration,
                     "episode": episode,
                     "running_reward": self.running_reward,
-                    "position": self.position
+                    "position": self.position,
+                    "running_position": self.running_position,
+                    "running_act_prob": self.running_act_prob,
+                    "running_last_10_r": self.running_last_10_r,
+                    "running_training_logs": self.running_training_logs
                     },
                    "Models/" + self.weight_dir + "/params.pth")
 
@@ -121,4 +125,11 @@ class Logger:
         model_dir.sort()
         checkpoint = torch.load(model_dir[-1] + "/params.pth")
         self.weight_dir = model_dir[-1].split(os.sep)[-1]
-        return checkpoint
+
+        self.brain.set_from_checkpoint(checkpoint)
+        self.running_position = checkpoint["running_position"]
+        self.running_act_prob = checkpoint["running_act_prob"]
+        self.running_last_10_r = checkpoint["running_last_10_r"]
+        self.running_training_logs = checkpoint["running_training_logs"]
+
+        return checkpoint["running_reward"], checkpoint["iteration"], checkpoint["episode"], checkpoint["position"]
