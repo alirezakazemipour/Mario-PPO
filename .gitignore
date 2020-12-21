@@ -129,6 +129,5 @@ dmypy.json
 .pyre/
 
 .idea/
-*.pth
 *.avi
 events*
