@@ -25,21 +25,22 @@ if __name__ == '__main__':
     config.update({"n_actions": test_env.action_space.n})
     test_env.close()
 
-    experiment = Experiment(
-        api_key="mpH0nJorSD143jz45qMvMYKZI",
-        project_name="general",
-        workspace="alirezakazemipour")
-
     brain = Brain(**config)
-    logger = Logger(brain, experiment=experiment, **config)
 
     if config["do_train"]:
+        
+        experiment = Experiment(
+            api_key="mpH0nJorSD143jz45qMvMYKZI",
+            project_name="general",
+            workspace="alirezakazemipour")
+
+        logger = Logger(brain, experiment=experiment, **config)
+
         if not config["train_from_scratch"]:
-            running_reward, init_iteration, episode, position = logger.load_weights()
+            init_iteration, episode, position = logger.load_weights()
 
         else:
             init_iteration = 0
-            running__reward = 0
             episode = 0
             position = 0
 
@@ -118,6 +119,7 @@ if __name__ == '__main__':
                                  total_action_probs[0].max(-1).mean())
 
     else:
+        logger = Logger(brain, **config)
         checkpoint = logger.load_weights()
         play = Play(config["env_name"], brain, checkpoint)
         play.evaluate()

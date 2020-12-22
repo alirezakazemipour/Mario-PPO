@@ -11,6 +11,8 @@ class Brain:
     def __init__(self, **config):
         np.random.seed(123)
         torch.random.manual_seed(123)
+        torch.cuda.random.manual_seed(123)
+
         self.config = config
         self.n_workers = self.config["n_workers"]
         self.epsilon = self.config["clip_range"]
@@ -44,7 +46,7 @@ class Brain:
         indices = np.random.randint(0, full_batch_size, (self.n_workers, self.config["batch_size"]))
 
         for idx in indices:
-            yield states[idx], actions[idx], advs[idx], returns[idx], values[idx], log_probs[idx]
+            yield states[idx], actions[idx], returns[idx], advs[idx], values[idx], log_probs[idx]
 
     @mean_of_list
     def train(self, states, actions, rewards, dones, values, log_probs, next_values):
@@ -55,8 +57,12 @@ class Brain:
 
         pg_losses, v_losses, entropies = [], [], []
         for epoch in range(self.config["n_epochs"]):
-            for state, action, q_value, adv, old_value, old_log_prob in self.choose_mini_batch(states, actions, returns,
-                                                                                               advs, values, log_probs):
+            for state, action, q_value, adv, old_value, old_log_prob in self.choose_mini_batch(states,
+                                                                                               actions,
+                                                                                               returns,
+                                                                                               advs,
+                                                                                               values,
+                                                                                               log_probs):
 
                 dist, value, _ = self.current_policy(state)
                 entropy = dist.entropy().mean()

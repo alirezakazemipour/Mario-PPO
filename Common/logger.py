@@ -131,5 +131,6 @@ class Logger:
         self.running_act_prob = checkpoint["running_act_prob"]
         self.running_last_10_r = checkpoint["running_last_10_r"]
         self.running_training_logs = checkpoint["running_training_logs"]
+        self.running_reward = checkpoint["running_reward"]
 
-        return checkpoint["running_reward"], checkpoint["iteration"], checkpoint["episode"], checkpoint["position"]
+        return checkpoint["iteration"], checkpoint["episode"], checkpoint["position"]
