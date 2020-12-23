@@ -89,7 +89,7 @@ class Logger:
                   "Time: {} "
                   .format(iteration,
                           self.episode,
-                          self.episode_reward,
+                          sum(self.episode_reward),
                           self.running_reward,
                           self.position,
                           self.running_position,
