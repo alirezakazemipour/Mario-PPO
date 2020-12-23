@@ -26,11 +26,11 @@ def get_params():
     # region default parameters
     default_params = {"state_shape": (4, 84, 84),
                       "rollout_length": 128,
-                      "n_epochs": 4,
-                      "batch_size": 64,
-                      "lr": 1e-4,
-                      "gamma": 0.99,
-                      "lambda": 0.95,
+                      "n_epochs": 4, # Fixed
+                      "batch_size": 64, # Fixed
+                      "lr": 2.5e-4,
+                      "gamma": 0.9, # Fixed
+                      "lambda": 0.95, # Fixed
                       "ent_coeff": 0.01,
                       "clip_range": 0.2,
                       "n_workers": 8,
