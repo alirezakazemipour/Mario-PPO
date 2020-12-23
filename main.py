@@ -65,7 +65,8 @@ if __name__ == '__main__':
         init_next_states = np.zeros((rollout_base_shape[0],) + config["state_shape"], dtype=np.uint8)
 
         logger.on()
-        episode_reward = 0
+        episode_reward = []
+        episode_length = 0
         concatenate = np.concatenate
         for iteration in tqdm(range(init_iteration + 1, config["total_iterations"] + 1)):
             total_states = init_states
@@ -95,12 +96,14 @@ if __name__ == '__main__':
                     total_dones[worker_id, t] = d
                     next_states[worker_id] = s_
 
-                episode_reward += total_rewards[0, t]
+                episode_reward.append(total_rewards[0, t])
+                episode_length += 1
                 if total_dones[0, t]:
                     episode += 1
                     position = infos[0]["x_pos"]
-                    logger.log_episode(episode, episode_reward, position)
-                    episode_reward = 0
+                    logger.log_episode(episode, episode_reward, position, episode_length)
+                    episode_reward = []
+                    episode_length = 0
 
             _, next_values, *_ = brain.get_actions_and_values(next_states, batch=True)
 

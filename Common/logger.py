@@ -16,12 +16,16 @@ class Logger:
         self.start_time = 0
         self.duration = 0
         self.episode = 0
-        self.episode_reward = 0
+        self.episode_reward = []
         self.running_reward = 0
         self.running_act_prob = 0
         self.position = 0
         self.running_position = 0
-        self.max_episode_reward = -np.inf
+        self.max_episode_reward = 0
+        self.min_episode_reward = 0
+        self.std_episode_reward = 0
+        self.mean_episode_reward = 0
+        self.episode_length = 0
         self.moving_avg_window = 10
         self.running_training_logs = 0
         self.moving_weights = np.repeat(1.0, self.moving_avg_window) / self.moving_avg_window
@@ -54,18 +58,22 @@ class Logger:
         if iteration % (self.config["interval"] // 3) == 0:
             self.save_params(self.episode, iteration)
 
-        self.experiment.log_metric("Episode Reward", self.episode_reward, step=self.episode)
+        self.experiment.log_metric("Episode Reward", sum(self.episode_reward), step=self.episode)
         self.experiment.log_metric("Running Episode Reward", self.running_reward, step=self.episode)
         self.experiment.log_metric("Position", self.position, step=self.episode)
         self.experiment.log_metric("Running last 10 Reward", self.running_last_10_r, step=self.episode)
         self.experiment.log_metric("Max Episode Reward", self.max_episode_reward, step=self.episode)
+        self.experiment.log_metric("Min Episode Reward", self.min_episode_reward, step=self.episode)
+        self.experiment.log_metric("Std Episode Reward", self.std_episode_reward, step=self.episode)
+        self.experiment.log_metric("Mean Episode Reward", self.mean_episode_reward, step=self.episode)
+        self.experiment.log_metric("Episode Length", self.episode_length, step=self.episode)
         self.experiment.log_metric("Running Action Probability", self.running_act_prob, step=iteration)
         self.experiment.log_metric("Running Position", self.running_position, step=iteration)
         self.experiment.log_metric("Running PG Loss", self.running_training_logs[0], step=iteration)
         self.experiment.log_metric("Running Value Loss", self.running_training_logs[1], step=iteration)
         self.experiment.log_metric("Running Entropy", self.running_training_logs[2], step=iteration)
-        self.experiment.log_metric("Running Explained variance", self.running_training_logs[3], step=iteration)
-        self.experiment.log_metric("Clip Range", self.brain.epsilon, step=iteration)
+        self.experiment.log_metric("Running KL", self.running_training_logs[3], step=iteration)
+        self.experiment.log_metric("Running Explained variance", self.running_training_logs[4], step=iteration)
 
         self.off()
         if iteration % self.config["interval"] == 0:
@@ -94,14 +102,18 @@ class Logger:
         self.on()
 
     def log_episode(self, *args):
-        self.episode, self.episode_reward, self.position = args
+        self.episode, self.episode_reward, self.position, self.episode_length = args
 
-        self.max_episode_reward = max(self.max_episode_reward, self.episode_reward)
+        self.max_episode_reward = self.exp_avg(self.max_episode_reward, max(self.episode_reward))
+        self.min_episode_reward = self.exp_avg(self.min_episode_reward, min(self.episode_reward))
+        self.std_episode_reward = self.exp_avg(self.std_episode_reward, np.std(np.asarray(self.episode_reward)))
+        self.mean_episode_reward = \
+            self.exp_avg(self.mean_episode_reward, sum(self.episode_reward) / len(self.episode_reward))
 
-        self.running_reward = self.exp_avg(self.running_reward, self.episode_reward)
+        self.running_reward = self.exp_avg(self.running_reward, sum(self.episode_reward))
         self.running_position = self.exp_avg(self.running_position, self.position)
 
-        self.last_10_ep_rewards.append(self.episode_reward)
+        self.last_10_ep_rewards.append(sum(self.episode_reward))
         if len(self.last_10_ep_rewards) == self.moving_avg_window:
             self.running_last_10_r = np.convolve(self.last_10_ep_rewards, self.moving_weights, 'valid')
 

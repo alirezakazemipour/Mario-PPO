@@ -53,9 +53,9 @@ class Brain:
         returns = self.get_gae(rewards, values, next_values, dones)
         values = np.concatenate(values)
         advs = returns - values
-        advs = (advs - advs.mean()) / (advs.std() + 1e-6)
+        advs = (advs - advs.mean()) / (advs.std() + 1e-8)
 
-        pg_losses, v_losses, entropies = [], [], []
+        pg_losses, v_losses, entropies, kls = [], [], [], []
         for epoch in range(self.config["n_epochs"]):
             for state, action, q_value, adv, old_value, old_log_prob in self.choose_mini_batch(states,
                                                                                                actions,
@@ -64,7 +64,7 @@ class Brain:
                                                                                                values,
                                                                                                log_probs):
 
-                dist, value, _ = self.current_policy(state)
+                dist, value, probs = self.current_policy(state)
                 entropy = dist.entropy().mean()
                 new_log_prob = dist.log_prob(action)
                 ratio = (new_log_prob - old_log_prob).exp()
@@ -78,11 +78,14 @@ class Brain:
                 total_loss = critic_loss + actor_loss - self.config["ent_coeff"] * entropy
                 self.optimize(total_loss)
 
+                approxkl = (new_log_prob - old_log_prob).pow(2).mean()
+
                 pg_losses.append(actor_loss.item())
                 v_losses.append(critic_loss.item())
                 entropies.append(entropy.item())
+                kls.append(approxkl.item())
 
-        return pg_losses, v_losses, entropies, explained_variance(values, returns)
+        return pg_losses, v_losses, entropies, kls, explained_variance(values, returns)
 
     def schedule_lr(self):
         self.scheduler.step()
