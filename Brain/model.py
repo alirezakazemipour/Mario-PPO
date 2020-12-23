@@ -15,13 +15,16 @@ class Model(nn.Module, ABC):
         #  https://github.com/openai/baselines/blob/master/baselines/ppo1/cnn_policy.py
         self.conv1 = nn.Conv2d(in_channels=c, out_channels=32, kernel_size=8, stride=4)
         self.conv2 = nn.Conv2d(in_channels=32, out_channels=64, kernel_size=4, stride=2)
+        self.conv3 = nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, stride=1)
 
         conv1_out_w = self.conv_shape(w, 8, 4)
         conv1_out_h = self.conv_shape(h, 8, 4)
         conv2_out_w = self.conv_shape(conv1_out_w, 4, 2)
         conv2_out_h = self.conv_shape(conv1_out_h, 4, 2)
+        conv3_out_w = self.conv_shape(conv2_out_w, 3, 1)
+        conv3_out_h = self.conv_shape(conv2_out_h, 3, 1)
 
-        flatten_size = conv2_out_w * conv2_out_h * 64
+        flatten_size = conv3_out_w * conv3_out_h * 64
 
         self.fc = nn.Linear(in_features=flatten_size, out_features=512)
         self.value = nn.Linear(in_features=512, out_features=1)
@@ -43,6 +46,7 @@ class Model(nn.Module, ABC):
         x = inputs / 255.
         x = F.relu(self.conv1(x))
         x = F.relu(self.conv2(x))
+        x = F.relu(self.conv3(x))
         x = x.contiguous()
         x = x.view(x.size(0), -1)
         x = F.relu(self.fc(x))

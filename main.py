@@ -28,7 +28,7 @@ if __name__ == '__main__':
     brain = Brain(**config)
 
     if config["do_train"]:
-        
+
         experiment = Experiment(
             api_key="mpH0nJorSD143jz45qMvMYKZI",
             project_name="general",
@@ -119,7 +119,7 @@ if __name__ == '__main__':
                                  total_action_probs[0].max(-1).mean())
 
     else:
-        logger = Logger(brain, **config)
-        checkpoint = logger.load_weights()
-        play = Play(config["env_name"], brain, checkpoint)
+        logger = Logger(brain, experiment=None, **config)
+        logger.load_weights()
+        play = Play(config["env_name"], brain)
         play.evaluate()
