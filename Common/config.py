@@ -9,7 +9,7 @@ def get_params():
                         help="The id number of the mario world.")
     parser.add_argument("--stage", default=1, type=int,
                         help="The id number of the mario world's stage.")
-    parser.add_argument("--total_iterations", default=6000, type=int,
+    parser.add_argument("--total_iterations", default=2000, type=int,
                         help="The total number of iterations.")
     parser.add_argument("--interval", default=30, type=int,
                         help="The interval specifies how often different parameters should be saved and printed,"
@@ -26,15 +26,15 @@ def get_params():
     # region default parameters
     default_params = {"state_shape": (4, 84, 84),
                       "rollout_length": 128,
-                      "n_epochs": 4, # Fixed
-                      "batch_size": 64, # Fixed
-                      "lr": 2.5e-4,
-                      "gamma": 0.9, # Fixed
-                      "lambda": 0.95, # Fixed
+                      "n_epochs": 4,  # Fixed
+                      "batch_size": 64,  # Fixed
+                      "lr": 2.5e-4,  # Fixed
+                      "gamma": 0.9,  # Fixed
+                      "lambda": 0.95,  # Fixed
                       "ent_coeff": 0.01,
-                      "clip_range": 0.2,
+                      "clip_range": 0.2,  # Fixed
                       "n_workers": 8,
-                      "max_grad_norm": 0.5
+                      "clip_grad_norm": dict(do=False, max_grad_norm=0.5)  # 'do' should be tuned for each environment.
                       }
 
     # endregion

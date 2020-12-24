@@ -19,8 +19,9 @@ def rgb2gray(img):
 
 
 def preprocessing(x):
-    img = rgb2gray(x)  # / 255.0 -> Do it later in order to open up more RAM !!!!
-    img = cv2.resize(img, (84, 110), interpolation=cv2.INTER_AREA)
+    img = rgb2gray(x)
+    img = cv2.resize(img, (84, 110),
+                     interpolation=cv2.INTER_AREA)  # 110 instead of 84 to get rid of infos at top of the screen later.
     img = img[18:102, :]
     return img
 

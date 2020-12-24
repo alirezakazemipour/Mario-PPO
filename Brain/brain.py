@@ -96,7 +96,9 @@ class Brain:
     def optimize(self, loss):
         self.optimizer.zero_grad()
         loss.backward()
-       # torch.nn.utils.clip_grad_norm_(self.current_policy.parameters(), self.config["max_grad_norm"]) # Fix -> No Clipping!
+        if self.config["clip_grad_norm"]["do"]:
+            torch.nn.utils.clip_grad_norm_(self.current_policy.parameters(),
+                                           self.config["clip_grad_norm"]["max_grad_norm"])
         self.optimizer.step()
 
     def get_gae(self, rewards, values, next_values, dones):
