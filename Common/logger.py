@@ -59,9 +59,7 @@ class Logger:
         if iteration % (self.config["interval"] // 3) == 0:
             self.save_params(self.episode, iteration)
 
-        self.experiment.log_metric("Episode Reward", self.episode_reward, step=self.episode)
         self.experiment.log_metric("Running Episode Reward", self.running_reward, step=self.episode)
-        self.experiment.log_metric("Position", self.position, step=self.episode)
         self.experiment.log_metric("Running last 10 Reward", self.running_last_10_r, step=self.episode)
         self.experiment.log_metric("Max Episode Reward", self.max_episode_rewards, step=self.episode)
         self.experiment.log_metric("Min Episode Reward", self.min_episode_rewards, step=self.episode)
