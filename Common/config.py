@@ -10,7 +10,7 @@ def get_params():
     parser.add_argument("--stage", default=1, type=int,
                         help="The id number of the mario world's stage.")
     parser.add_argument("--total_iterations", default=2000, type=int,
-                        help="The total number of iterations.")
+                        help="The total number of iterations.")  # Fixed
     parser.add_argument("--interval", default=30, type=int,
                         help="The interval specifies how often different parameters should be saved and printed,"
                              " counted by iterations.")
@@ -34,7 +34,7 @@ def get_params():
                       "ent_coeff": 0.01,
                       "clip_range": 0.2,  # Fixed
                       "n_workers": 8,
-                      "clip_grad_norm": dict(do=False, max_grad_norm=0.5)  # 'do' should be tuned for each environment.
+                      "clip_grad_norm": dict(do=False, max_grad_norm=0.5)  # Fixed
                       }
 
     # endregion

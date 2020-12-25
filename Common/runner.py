@@ -11,6 +11,7 @@ class Worker:
         self._env.seed(123)
         self._stacked_states = np.zeros(self._state_shape, dtype=np.uint8)
         self._score = 0
+        self._episode_reward = 0
 
         self.fourcc = cv2.VideoWriter_fourcc(*'XVID')
         if not os.path.exists("trajectories"):
@@ -33,6 +34,7 @@ class Worker:
         self._stacked_states = stack_states(self._stacked_states, state, True)
         self._score = 0
         self._frames = []
+        self._episode_reward = 0
 
     def step(self, conn):
         while True:
@@ -48,10 +50,13 @@ class Worker:
                 else:
                     r -= 50
 
+            self._episode_reward += r / 10
+
             if info["flag_get"]:
                 print("\n---------------------------------------")
                 print("🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩\n"
-                      f"Worker {self._id}: got the flag!!!!!!!")
+                      f"Worker {self._id}: got the flag!!!!!!!\n"
+                      f"Episode Reward:{self._episode_reward:.1f}")
                 print("---------------------------------------")
 
                 for frame in self._frames:
