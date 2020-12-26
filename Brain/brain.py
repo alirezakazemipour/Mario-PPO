@@ -37,7 +37,7 @@ class Brain:
     def choose_mini_batch(self, states, actions, returns, advs, values, log_probs):
         full_batch_size = len(states)
         states = torch.ByteTensor(states).to(self.device)
-        actions = torch.Tensor(actions).to(self.device)
+        actions = torch.Tensor(actions).to(self.device)  # TODO
         advs = torch.Tensor(advs).to(self.device)
         returns = torch.Tensor(returns).to(self.device)
         values = torch.Tensor(values).to(self.device)
@@ -63,7 +63,6 @@ class Brain:
                                                                                                advs,
                                                                                                values,
                                                                                                log_probs):
-
                 dist, value, probs = self.current_policy(state)
                 entropy = dist.entropy().mean()
                 new_log_prob = dist.log_prob(action)

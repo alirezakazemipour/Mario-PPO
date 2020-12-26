@@ -8,7 +8,7 @@ import numpy as np
 from Brain.brain import Brain
 from nes_py.wrappers import JoypadSpace
 import gym_super_mario_bros
-from gym_super_mario_bros.actions import SIMPLE_MOVEMENT
+from gym_super_mario_bros.actions import SIMPLE_MOVEMENT  # TODO
 from tqdm import tqdm
 
 
