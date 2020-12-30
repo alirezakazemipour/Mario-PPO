@@ -14,12 +14,8 @@ def mean_of_list(func):
     return function_wrapper
 
 
-def rgb2gray(img):
-    return cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
-
-
 def preprocessing(x):
-    img = rgb2gray(x)
+    img = cv2.cvtColor(x, cv2.COLOR_RGB2GRAY)
     img = cv2.resize(img, (84, 110),
                      interpolation=cv2.INTER_AREA)  # 110 instead of 84 to get rid of infos at top of the screen later.
     img = img[18:102, :]

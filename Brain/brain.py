@@ -37,7 +37,7 @@ class Brain:
     def choose_mini_batch(self, states, actions, returns, advs, values, log_probs):
         full_batch_size = len(states)
         states = torch.ByteTensor(states).to(self.device)
-        actions = torch.Tensor(actions).to(self.device)  # TODO
+        actions = torch.ByteTensor(actions).to(self.device)
         advs = torch.Tensor(advs).to(self.device)
         returns = torch.Tensor(returns).to(self.device)
         values = torch.Tensor(values).to(self.device)
@@ -63,7 +63,7 @@ class Brain:
                                                                                                advs,
                                                                                                values,
                                                                                                log_probs):
-                dist, value, probs = self.current_policy(state)
+                dist, value, _ = self.current_policy(state)
                 entropy = dist.entropy().mean()
                 new_log_prob = dist.log_prob(action)
                 ratio = (new_log_prob - old_log_prob).exp()
@@ -77,7 +77,7 @@ class Brain:
                 total_loss = critic_loss + actor_loss - self.config["ent_coeff"] * entropy
                 self.optimize(total_loss)
 
-                approxkl = (new_log_prob - old_log_prob).pow(2).mean()
+                approxkl = 0.5 * (new_log_prob - old_log_prob).pow(2).mean()  # http://joschu.net/blog/kl-approx.html
 
                 pg_losses.append(actor_loss.item())
                 v_losses.append(critic_loss.item())
@@ -96,8 +96,8 @@ class Brain:
         self.optimizer.zero_grad()
         loss.backward()
         if self.config["clip_grad_norm"]["do"]:
-            torch.nn.utils.clip_grad_norm_(self.current_policy.parameters(),
-                                           self.config["clip_grad_norm"]["max_grad_norm"])
+            grad_norm = torch.nn.utils.clip_grad_norm_(self.current_policy.parameters(),
+                                                       self.config["clip_grad_norm"]["max_grad_norm"])
         self.optimizer.step()
 
     def get_gae(self, rewards, values, next_values, dones):

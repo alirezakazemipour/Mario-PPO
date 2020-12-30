@@ -67,7 +67,7 @@ class Logger:
         self.experiment.log_metric("Mean Episode Reward", self.mean_episode_rewards, step=self.episode)
         self.experiment.log_metric("Episode Length", self.episode_length, step=self.episode)
         self.experiment.log_metric("Running Action Probability", self.running_act_prob, step=iteration)
-        self.experiment.log_metric("Running Position", self.running_position, step=iteration)
+        self.experiment.log_metric("Running Position", self.running_position, step=self.episode)
         self.experiment.log_metric("Running PG Loss", self.running_training_logs[0], step=iteration)
         self.experiment.log_metric("Running Value Loss", self.running_training_logs[1], step=iteration)
         self.experiment.log_metric("Running Entropy", self.running_training_logs[2], step=iteration)
