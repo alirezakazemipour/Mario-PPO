@@ -10,6 +10,7 @@ from nes_py.wrappers import JoypadSpace
 import gym_super_mario_bros
 from gym_super_mario_bros.actions import SIMPLE_MOVEMENT
 from tqdm import tqdm
+import torch
 
 
 def run_workers(worker, conn):
@@ -18,6 +19,10 @@ def run_workers(worker, conn):
 
 if __name__ == '__main__':
     config = get_params()
+
+    np.random.seed(config["random_seed"])
+    torch.manual_seed(config["random_seed"])
+    torch.cuda.manual_seed(config["random_seed"])
 
     config.update({"env_name": "SuperMarioBros-" + str(config['world']) + "-" + str(config['stage']) + "-v0"})
     test_env = gym_super_mario_bros.make(config["env_name"])

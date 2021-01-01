@@ -34,7 +34,8 @@ def get_params():
                       "ent_coeff": 0.01,
                       "clip_range": 0.2,  # Fixed
                       "n_workers": 8,
-                      "clip_grad_norm": dict(do=True, max_grad_norm=0.5)  # Fixed
+                      "clip_grad_norm": dict(do=True, max_grad_norm=0.5),  # Fixed
+                      "random_seed": 123
                       }
 
     # endregion

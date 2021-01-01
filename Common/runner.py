@@ -8,9 +8,10 @@ class Worker:
         self.config = config
         self._state_shape = self.config["state_shape"]
         self._env = make_mario(self.config["env_name"])
-        self._env.seed(123)
+        self._env.seed(self.config["random_seed"])
         self._stacked_states = np.zeros(self._state_shape, dtype=np.uint8)
         self._score = 0
+        self._pos = 0
         self._episode_reward = 0
 
         self.fourcc = cv2.VideoWriter_fourcc(*'XVID')
@@ -33,6 +34,7 @@ class Worker:
         state = self._env.reset()
         self._stacked_states = stack_states(self._stacked_states, state, True)
         self._score = 0
+        self._pos = 0
         self._frames = []
         self._episode_reward = 0
 
@@ -56,13 +58,15 @@ class Worker:
                 print("\n---------------------------------------")
                 print("🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩🚩\n"
                       f"Worker {self._id}: got the flag!!!!!!!\n"
-                      f"Episode Reward:{self._episode_reward:.1f}")
+                      f"Episode Reward: {self._episode_reward:.1f}\n"
+                      f"Position: {self._pos}")
                 print("---------------------------------------")
 
                 for frame in self._frames:
                     self.VideoWriter.write(cv2.cvtColor(frame, cv2.COLOR_RGB2BGR))
 
             # r = r + new_score + int(info["flag_get"])
+            self._pos = info["x_pos"]
 
             self._stacked_states = stack_states(self._stacked_states, next_state, False)
             self._frames.append(next_state)
