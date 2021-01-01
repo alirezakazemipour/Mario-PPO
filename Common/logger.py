@@ -37,7 +37,7 @@ class Logger:
             self.create_wights_folder()
             self.experiment.log_parameters(self.config)
 
-        self.exp_avg = lambda x, y: 0.9 * x + 0.1 * y if (y != 0).all() else y
+        self.exp_avg = lambda x, y: 0.99 * x + 0.01 * y if (y != 0).all() else y
 
     def create_wights_folder(self):
         if not os.path.exists("Models"):
@@ -66,8 +66,8 @@ class Logger:
         self.experiment.log_metric("Std Episode Reward", self.std_episode_rewards, step=self.episode)
         self.experiment.log_metric("Mean Episode Reward", self.mean_episode_rewards, step=self.episode)
         self.experiment.log_metric("Episode Length", self.episode_length, step=self.episode)
-        self.experiment.log_metric("Running Action Probability", self.running_act_prob, step=iteration)
         self.experiment.log_metric("Running Position", self.running_position, step=self.episode)
+        self.experiment.log_metric("Running Action Probability", self.running_act_prob, step=iteration)
         self.experiment.log_metric("Running PG Loss", self.running_training_logs[0], step=iteration)
         self.experiment.log_metric("Running Value Loss", self.running_training_logs[1], step=iteration)
         self.experiment.log_metric("Running Entropy", self.running_training_logs[2], step=iteration)
@@ -104,7 +104,7 @@ class Logger:
         self.episode, self.episode_reward, self.position, episode_length = args
 
         self.episode_rewards.append(self.episode_reward)
-        self.episode_length = 0.9 * self.episode_length + 0.1 * episode_length
+        self.episode_length = 0.99 * self.episode_length + 0.01 * episode_length
         self.max_episode_rewards = self.exp_avg(self.max_episode_rewards, max(self.episode_rewards))
         self.min_episode_rewards = self.exp_avg(self.min_episode_rewards, min(self.episode_rewards))
         self.std_episode_rewards = self.exp_avg(self.std_episode_rewards, np.std(np.asarray(self.episode_rewards)))

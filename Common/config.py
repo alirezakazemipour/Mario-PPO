@@ -26,18 +26,19 @@ def get_params():
     # region default parameters
     default_params = {"state_shape": (4, 84, 84),
                       "rollout_length": 128,
-                      "n_epochs": 4,  # Fixed
+                      "n_epochs": 8,  # Fixed
                       "batch_size": 64,  # Fixed
                       "lr": 2.5e-4,  # Fixed
-                      "gamma": 0.9,  # Fixed
+                      "gamma": 0.97,  # Fixed
                       "lambda": 0.95,  # Fixed
                       "ent_coeff": 0.01,
                       "clip_range": 0.2,  # Fixed
                       "n_workers": 8,
-                      "clip_grad_norm": dict(do=False, max_grad_norm=0.5)  # Fixed
+                      "clip_grad_norm": dict(do=True, max_grad_norm=0.5)  # Fixed
                       }
 
     # endregion
     total_params = {**vars(parser_params), **default_params}
     print("params:", total_params)
     return total_params
+

@@ -10,8 +10,8 @@ from Common.utils import explained_variance, mean_of_list
 class Brain:
     def __init__(self, **config):
         np.random.seed(123)
-        torch.random.manual_seed(123)
-        torch.cuda.random.manual_seed(123)
+        torch.manual_seed(123)
+        torch.cuda.manual_seed(123)
 
         self.config = config
         self.n_workers = self.config["n_workers"]
