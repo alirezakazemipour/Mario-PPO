@@ -9,7 +9,7 @@ def get_params():
                         help="The id number of the mario world.")
     parser.add_argument("--stage", default=1, type=int,
                         help="The id number of the mario world's stage.")
-    parser.add_argument("--total_iterations", default=1500, type=int,
+    parser.add_argument("--total_iterations", default=4000, type=int,
                         help="The total number of iterations.")  # Fixed
     parser.add_argument("--interval", default=30, type=int,
                         help="The interval specifies how often different parameters should be saved and printed,"
