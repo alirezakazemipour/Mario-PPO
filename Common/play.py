@@ -1,6 +1,6 @@
 import time
 import os
-from Common.utils import *
+from .utils import *
 
 
 class Play:
