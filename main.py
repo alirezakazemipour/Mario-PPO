@@ -129,5 +129,5 @@ if __name__ == '__main__':
     else:
         logger = Logger(brain, experiment=None, **config)
         logger.load_weights()
-        play = Play(config["env_name"], brain)
+        play = Play(brain, **config)
         play.evaluate()

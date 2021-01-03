@@ -72,7 +72,8 @@ class Logger:
         self.experiment.log_metric("Running Value Loss", self.running_training_logs[1], step=iteration)
         self.experiment.log_metric("Running Entropy", self.running_training_logs[2], step=iteration)
         self.experiment.log_metric("Running KL", self.running_training_logs[3], step=iteration)
-        self.experiment.log_metric("Running Explained variance", self.running_training_logs[4], step=iteration)
+        self.experiment.log_metric("Running Grad norm", self.running_training_logs[4], step=iteration)
+        self.experiment.log_metric("Running Explained variance", self.running_training_logs[5], step=iteration)
 
         self.off()
         if iteration % self.config["interval"] == 0:
@@ -119,7 +120,7 @@ class Logger:
             self.running_last_10_r = np.convolve(self.last_10_ep_rewards, self.moving_weights, 'valid')
 
     def save_params(self, episode, iteration):
-        torch.save({"current_policy_state_dict": self.brain.current_policy.state_dict(),
+        torch.save({"current_policy_state_dict": self.brain.policy.state_dict(),
                     "optimizer_state_dict": self.brain.optimizer.state_dict(),
                     "scheduler_state_dict": self.brain.scheduler.state_dict(),
                     "iteration": iteration,

@@ -5,19 +5,19 @@ import os
 class Worker:
     def __init__(self, id, **config):
         self._id = id
-        self.config = config
-        self._state_shape = self.config["state_shape"]
-        self._env = make_mario(self.config["env_name"])
-        self._env.seed(self.config["random_seed"])
+        self._config = config
+        self._state_shape = self._config["state_shape"]
+        self._env = make_mario(self._config["env_name"])
+        self._env.seed(self._config["random_seed"])
         self._stacked_states = np.zeros(self._state_shape, dtype=np.uint8)
         self._score = 0
         self._pos = 0
         self._episode_reward = 0
 
         self.fourcc = cv2.VideoWriter_fourcc(*'XVID')
-        if not os.path.exists("trajectories"):
-            os.mkdir("trajectories")
-        self.VideoWriter = cv2.VideoWriter("trajectories/" + "worker_" + f"{self.id}" + ".avi", self.fourcc, 20.0,
+        if not os.path.exists("Trajectories"):
+            os.mkdir("Trajectories")
+        self.VideoWriter = cv2.VideoWriter("Trajectories/" + "worker_" + f"{self.id}" + ".avi", self.fourcc, 20.0,
                                            self._env.observation_space.shape[1::-1])
         self._frames = []
         self.reset()

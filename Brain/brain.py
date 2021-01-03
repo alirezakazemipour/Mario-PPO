@@ -14,18 +14,18 @@ class Brain:
         self.epsilon = self.config["clip_range"]
         self.device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
 
-        self.current_policy = Model(self.config["state_shape"], self.config["n_actions"]).to(self.device)
+        self.policy = Model(self.config["state_shape"], self.config["n_actions"]).to(self.device)
 
-        self.optimizer = Adam(self.current_policy.parameters(), lr=self.config["lr"])
-        self._schedule_fn = lambda step: max(1.0 - float(step / self.config["total_iterations"]), 0)
-        self.scheduler = LambdaLR(self.optimizer, lr_lambda=self._schedule_fn)
+        self.optimizer = Adam(self.policy.parameters(), lr=self.config["lr"])
+        self.schedule_fn = lambda step: max(1.0 - float(step / self.config["total_iterations"]), 0)
+        self.scheduler = LambdaLR(self.optimizer, lr_lambda=self.schedule_fn)
 
     def get_actions_and_values(self, state, batch=False):
         if not batch:
             state = np.expand_dims(state, 0)
         state = from_numpy(state).to(self.device)
         with torch.no_grad():
-            dist, value, action_prob = self.current_policy(state)
+            dist, value, action_prob = self.policy(state)
             action = dist.sample()
             log_prob = dist.log_prob(action)
         return action.cpu().numpy(), value.cpu().numpy().squeeze(), log_prob.cpu().numpy(), action_prob.cpu().numpy()
@@ -51,7 +51,7 @@ class Brain:
         advs = returns - values
         advs = (advs - advs.mean()) / (advs.std() + 1e-8)
 
-        pg_losses, v_losses, entropies, kls = [], [], [], []
+        pg_losses, v_losses, entropies, kls, norms = [], [], [], [], []
         for epoch in range(self.config["n_epochs"]):
             for state, action, q_value, adv, old_value, old_log_prob in self.choose_mini_batch(states,
                                                                                                actions,
@@ -59,7 +59,7 @@ class Brain:
                                                                                                advs,
                                                                                                values,
                                                                                                log_probs):
-                dist, value, _ = self.current_policy(state)
+                dist, value, _ = self.policy(state)
                 entropy = dist.entropy().mean()
                 new_log_prob = dist.log_prob(action)
                 ratio = (new_log_prob - old_log_prob).exp()
@@ -71,7 +71,7 @@ class Brain:
                 critic_loss = 0.5 * torch.max(clipped_v_loss, unclipped_v_loss).mean()
 
                 total_loss = critic_loss + actor_loss - self.config["ent_coeff"] * entropy
-                self.optimize(total_loss)
+                norm = self.optimize(total_loss)
 
                 approxkl = 0.5 * (new_log_prob - old_log_prob).pow(2).mean()  # http://joschu.net/blog/kl-approx.html
 
@@ -79,8 +79,9 @@ class Brain:
                 v_losses.append(critic_loss.item())
                 entropies.append(entropy.item())
                 kls.append(approxkl.item())
+                norms.append(norm.item())
 
-        return pg_losses, v_losses, entropies, kls, explained_variance(values, returns)
+        return pg_losses, v_losses, entropies, kls, norms, explained_variance(values, returns)
 
     def schedule_lr(self):
         self.scheduler.step()
@@ -92,9 +93,10 @@ class Brain:
         self.optimizer.zero_grad()
         loss.backward()
         if self.config["clip_grad_norm"]["do"]:
-            grad_norm = torch.nn.utils.clip_grad_norm_(self.current_policy.parameters(),
+            grad_norm = torch.nn.utils.clip_grad_norm_(self.policy.parameters(),
                                                        self.config["clip_grad_norm"]["max_grad_norm"])
         self.optimizer.step()
+        return grad_norm
 
     def get_gae(self, rewards, values, next_values, dones):
         gamma = self.config["gamma"]
@@ -122,9 +124,9 @@ class Brain:
         return loss
 
     def set_from_checkpoint(self, checkpoint):
-        self.current_policy.load_state_dict(checkpoint["current_policy_state_dict"])
+        self.policy.load_state_dict(checkpoint["current_policy_state_dict"])
         self.optimizer.load_state_dict(checkpoint["optimizer_state_dict"])
         self.scheduler.load_state_dict(checkpoint["scheduler_state_dict"])
 
     def set_to_eval_mode(self):
-        self.current_policy.eval()
+        self.policy.eval()
