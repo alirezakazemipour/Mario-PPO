@@ -22,7 +22,6 @@ class Play:
         stacked_states = np.zeros(self.config["state_shape"], dtype=np.uint8)
         mean_ep_reward = []
         for episode in range(self.max_episode):
-            self.env.seed(episode)
             s = self.env.reset()
             stacked_states = stack_states(stacked_states, s, True)
             episode_reward = 0

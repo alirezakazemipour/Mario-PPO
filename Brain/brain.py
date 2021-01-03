@@ -1,4 +1,4 @@
-from Brain.model import Model
+from .model import Model
 import torch
 from torch import from_numpy
 import numpy as np

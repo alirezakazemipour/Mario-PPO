@@ -1,8 +1,5 @@
 from comet_ml import Experiment
-from Common.runner import Worker
-from Common.play import Play
-from Common.config import get_params
-from Common.logger import Logger
+from Common import get_params, Logger, Worker, Play
 from torch.multiprocessing import Process, Pipe
 import numpy as np
 from Brain.brain import Brain
