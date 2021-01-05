@@ -1,5 +1,5 @@
 # Mario-PPO
-## 												29 / 32 Levels Completed!
+## 				29 / 32 Levels Completed!
 
 <p align="left">
   <img src="Demo/world1-stage1.gif" width="200">
@@ -31,5 +31,4 @@
   <img src="Demo/world8-stage1.gif" width="200">
   <img src="Demo/world8-stage2.gif" width="200">
   <img src="Demo/world8-stage3.gif" width="200"><br/>
-  <i>Sample results</i>
 </p>
