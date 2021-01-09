@@ -34,11 +34,34 @@
   <img src="Demo/world8-stage3.gif" width="200"><br/>
 </p>
 
-## Documented Hyper-Parameters
-World-Stage| rollout length| number of epochs| batch size| lr| gamma| lambda| entropy coefficient| clip range| number of workers| gradient clipping norm 
-:---------:|:-------------:|:---------------:|:---------:|:---:|:---:|:----:|:------------------:|:---------:|:----------------:|:---------------------:
-	1-1      |      128      |        8        |      64   |2.5e-4| 0.9| 0.95 |         0.01       |      0.2  |        8         |       0.5
-  
+## Documented Hyper-Parameters fo different worlds (W) and satges (S)
+> I forgot to document hyper-parameters for all environments on [comet.ml](comet.ml). 😅
+W-S| T| n_epochs| batch_size| lr| gamma| lambda| ent_coeff| clip_range| n_workers| grad_clip_norm 
+:---:|:---:|:---:|:--------:|:---:|:----:|:---:|:--------:|:---------:|:--------:|:--------------:
+1-1  | 128 | 8   |      64  |2.5e-4| 0.9| 0.95 |  0.01    |      0.2  |        8 |       0.5
+1-2  | 128 | 8   |      64  |2.5e-4| 0.9| 0.95 |  0.01    |      0.2  |        8 |       0.5
+2-2  | 128 | 10  |      32  |2.5e-4| 0.9| 0.95 |  0.01    |      0.2  |        8 |  No Clipping
+3-1  | 128 | 4   |      64  |2.5e-4| 0.9| 0.95 |  0.01    |      0.2  |        8 |  No Clipping
+3-2  | 128 | 4   |      64  |2.5e-4| 0.9| 0.95 |  0.01    |      0.2  |        8 |  No Clipping
+3-3  | 128 | 8   |      64  |1e-4  | 0.9| 0.95 |  0.01    |      0.1  |        8 |        1
+3-4  | 128 | 8   |      64  |1e-4  | 0.9| 0.95 |  0.01    |      0.1  |        8 |        1
+4-1  | 128 | 8   |      64  |1e-4  | 0.9| 0.95 |  0.01    |      0.1  |        8 |        1
+4-2  | 128 | 8   |      64  |1e-4  | 0.95| 0.95|  0.01    |      0.2  |        8 |  No Clippiing
+4-3  | 128 | 8   |      64  |2.5e-4| 0.97| 0.95|  0.01    |      0.2  |        8 |  	 0.5
+5-1  | 128 | 8   |      64  |2.5e-4| 0.97| 0.95|  0.01    |      0.2  |        8 |  	 0.5
+5-2  | 128 | 8   |      64  |2.5e-4| 0.97| 0.95|  0.01    |      0.2  |        8 |  	 0.5
+5-3  | 128 | 8   |      64  |2.5e-4| 0.98| 0.98|  0.03    |      0.2  |        8 |  	 0.5
+6-1  | 128 | 8   |      64  |2.5e-4| 0.9 | 0.95|  0.01    |      0.2  |        8 |  	 0.5
+6-2  | 128 | 8   |      64  |2.5e-4| 0.9 | 0.95|  0.01    |      0.2  |        8 |  	 0.5
+6-3  | 128 | 8   |      64  |2.5e-4| 0.98| 0.98|  0.03    |      0.2  |        8 |  	 0.5
+6-4  | 128 | 8   |      64  |2.5e-4| 0.9 | 0.95|  0.01    |      0.2  |        8 |  	 0.5
+7-1  | 128 | 8   |      64  |2.5e-4| 0.9 | 0.95|  0.01    |      0.2  |        8 |  	 0.5
+7-2  | 128 | 8   |      64  |2.5e-4| 0.9 | 0.95|  0.01    |      0.2  |        8 |  	 0.5
+7-3  | 128 | 8   |      64  |2.5e-4| 0.9 | 0.95|  0.01    |      0.2  |        8 |  	 0.5
+8-1  | 128 | 8   |      64  |2.5e-4| 0.9 | 0.95|  0.01    |      0.2  |        8 |  	 0.5
+8-2  | 128 | 8   |      64  |2.5e-4| 0.9 | 0.95|  0.01    |      0.2  |        8 |  	 0.5
+8-3  | 128 | 8   |      64  |2.5e-4| 0.9 | 0.95|  0.01    |      0.2  |        8 |  	 0.5
+
 ## Acnowledgement
 1. [@OpenAI](https://github.com/openai) for [Mario Wrapper](https://github.com/openai/large-scale-curiosity/blob/e0a698676d19307a095cd4ac1991c4e4e70e56fb/wrappers.py#L241).
 2. [@uvipen](https://github.com/uvipen) for [Super-mario-bros-PPO-pytorch](https://github.com/uvipen/Super-mario-bros-PPO-pytorch).
