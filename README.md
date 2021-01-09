@@ -35,7 +35,7 @@
 </p>
 
 ## Documented Hyper-Parameters fo different worlds (W) and satges (S)
-> I forgot to document hyper-parameters for all environments on [comet.ml](comet.ml). 😅
+> I forgot to document hyper-parameters for all environments on [comet.ml](https://www.comet.ml). 😅
 
 W-S| T| n_epochs| batch_size| lr| gamma| lambda| ent_coeff| clip_range| n_workers| grad_clip_norm 
 :---:|:---:|:---:|:--------:|:---:|:----:|:---:|:--------:|:---------:|:--------:|:--------------:
