@@ -1,6 +1,6 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)  
 # Mario-PPO
-## 29 / 32 Levels Completed!
+## 29 / 32 Levels Completed (**Let the page to be fully loaded**)!
 
 <p align="left">
   <img src="Demo/world1-stage1.gif" width="200">
