@@ -34,6 +34,9 @@
   <img src="Demo/world8-stage3.gif" width="200"><br/>
 </p>
 
+## Usage
+[_TODO_]
+
 ## Documented Hyper-Parameters fo different worlds (W) and satges (S)
 > I forgot to document hyper-parameters for all environments on [comet.ml](https://www.comet.ml). 😅
 
