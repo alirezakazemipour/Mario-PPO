@@ -31,10 +31,7 @@ if __name__ == '__main__':
 
     if config["do_train"]:
 
-        experiment = Experiment(
-            api_key="mpH0nJorSD143jz45qMvMYKZI",
-            project_name="general",
-            workspace="alirezakazemipour")
+        experiment = Experiment() # Add your Comet configs!
 
         logger = Logger(brain, experiment=experiment, **config)
 
