@@ -37,6 +37,11 @@
 ## Usage
 ### How to run
 
+- **First, Don't forget to insert your [comet.ml](https://www.comet.ml) configurations in this line:  
+```python
+experiment = Experiment() # Add your Comet configs!
+```
+
 ```bash
 usage: main.py [-h] [--world WORLD] [--stage STAGE]
                [--total_iterations TOTAL_ITERATIONS] [--interval INTERVAL]
