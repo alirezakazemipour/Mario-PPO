@@ -35,7 +35,39 @@
 </p>
 
 ## Usage
-[_TODO_]
+### How to run
+`
+usage: main.py [-h] [--world WORLD] [--stage STAGE]
+               [--total_iterations TOTAL_ITERATIONS] [--interval INTERVAL]
+               [--do_train] [--render] [--train_from_scratch]
+
+Variable parameters based on the configuration of the machine or user's choice
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --world WORLD         The id number of the mario world.
+  --stage STAGE         The id number of the mario world's stage.
+  --total_iterations TOTAL_ITERATIONS
+                        The total number of iterations.
+  --interval INTERVAL   The interval specifies how often different parameters
+                        should be saved and printed, counted by iterations.
+  --do_train            The flag determines whether to train the agent or play
+                        with it.
+  --render              The flag determines whether to render each agent or
+                        not.
+  --train_from_scratch  The flag determines whether to train from scratch or
+                        continue previous tries.
+`
+- **In order to train the agent with your choice of world and stage (`do_train` flag changes the mode of _training_ to _testing_ the agent):
+```shell
+python3 main.py --world=2 --stage=2
+```
+- **If you want to keep training your previous run, execute the followoing:**
+```shell
+python3 main.py --world=2 --stage=2 --train_from_scratch
+```
+### Hardware requirements
+- **The whole training procedure was done on Quadro P5000 on [paperspace.com](www.paperspace.com) thus, a machine with similar configuration would be sufficient**.
 
 ## Documented Hyper-Parameters fo different worlds (W) and satges (S)
 > I forgot to document hyper-parameters for all environments on [comet.ml](https://www.comet.ml). 😅
@@ -64,7 +96,10 @@ W-S| T| n_epochs| batch_size| lr| gamma| lambda| ent_coeff| clip_range| n_worker
 7-3  | 128 | 8   |      64  |2.5e-4| 0.9 | 0.95|  0.01    |      0.2  |        8 |  	 0.5
 8-1  | 128 | 8   |      64  |2.5e-4| 0.9 | 0.95|  0.01    |      0.2  |        8 |  	 0.5
 8-2  | 128 | 8   |      64  |2.5e-4| 0.9 | 0.95|  0.01    |      0.2  |        8 |  	 0.5
-8-3  | 128 | 8   |      64  |2.5e-4| 0.9 | 0.95|  0.01    |      0.2  |        8 |  	 0.5
+8-3  | 128 | 8   |      64  |2.5e-4| 0.9 | 0.95|  0.01    |      0.2  |        8 |  	 0.5         
+
+- For the world 4 - stage 2, the effect of the game score was not used since, it distracts the mario from the his original goal which is reaching the flag.
+
 
 ## Acnowledgement
 1. [@OpenAI](https://github.com/openai) for [Mario Wrapper](https://github.com/openai/large-scale-curiosity/blob/e0a698676d19307a095cd4ac1991c4e4e70e56fb/wrappers.py#L241).
