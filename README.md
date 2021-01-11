@@ -37,7 +37,7 @@
 ## Usage
 ### How to run
 
-`
+```bash
 usage: main.py [-h] [--world WORLD] [--stage STAGE]
                [--total_iterations TOTAL_ITERATIONS] [--interval INTERVAL]
                [--do_train] [--render] [--train_from_scratch]
@@ -58,7 +58,7 @@ optional arguments:
                         not.
   --train_from_scratch  The flag determines whether to train from scratch or
                         continue previous tries.
-`
+```
 
 - **In order to train the agent with your choice of world and stage (`do_train` flag changes the mode of _training_ to _testing_ the agent)**:
 ```shell
