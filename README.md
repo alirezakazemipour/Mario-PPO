@@ -36,7 +36,8 @@
 
 ## Usage
 ### How to run
-`
+
+```bash
 usage: main.py [-h] [--world WORLD] [--stage STAGE]
                [--total_iterations TOTAL_ITERATIONS] [--interval INTERVAL]
                [--do_train] [--render] [--train_from_scratch]
@@ -57,19 +58,20 @@ optional arguments:
                         not.
   --train_from_scratch  The flag determines whether to train from scratch or
                         continue previous tries.
-`
+```
+
 - **In order to train the agent with your choice of world and stage (`do_train` flag changes the mode of _training_ to _testing_ the agent):
 ```shell
 python3 main.py --world=2 --stage=2
 ```
-- **If you want to keep training your previous run, execute the followoing:**
+- **If you want to keep training your previous run, execute the following:**
 ```shell
 python3 main.py --world=2 --stage=2 --train_from_scratch
 ```
 ### Hardware requirements
-- **The whole training procedure was done on Quadro P5000 on [paperspace.com](www.paperspace.com) thus, a machine with similar configuration would be sufficient**.
+- **The whole training procedure was done on Quadro P5000 on [paperspace.com](https://www.paperspace.com/) thus, a machine with similar configuration would be sufficient**.
 
-## Documented Hyper-Parameters fo different worlds (W) and satges (S)
+## Documented Hyper-Parameters fo different worlds (W) and stages (S)
 > I forgot to document hyper-parameters for all environments on [comet.ml](https://www.comet.ml). 😅
 
 W-S| T| n_epochs| batch_size| lr| gamma| lambda| ent_coeff| clip_range| n_workers| grad_clip_norm 
@@ -98,10 +100,10 @@ W-S| T| n_epochs| batch_size| lr| gamma| lambda| ent_coeff| clip_range| n_worker
 8-2  | 128 | 8   |      64  |2.5e-4| 0.9 | 0.95|  0.01    |      0.2  |        8 |  	 0.5
 8-3  | 128 | 8   |      64  |2.5e-4| 0.9 | 0.95|  0.01    |      0.2  |        8 |  	 0.5         
 
-- For the world 4 - stage 2, the effect of the game score was not used since, it distracts the mario from the his original goal which is reaching the flag.
+- For world 4 - stage 2, the effect of the game score was not used since it distracts Mario from his original goal which is reaching the flag.
 
 
-## Acnowledgement
+## Acknowledgment
 1. [@OpenAI](https://github.com/openai) for [Mario Wrapper](https://github.com/openai/large-scale-curiosity/blob/e0a698676d19307a095cd4ac1991c4e4e70e56fb/wrappers.py#L241).
 2. [@uvipen](https://github.com/uvipen) for [Super-mario-bros-PPO-pytorch](https://github.com/uvipen/Super-mario-bros-PPO-pytorch).
 3. [@roclark](https://github.com/roclark) for [Mario Reward](https://github.com/roclark/super-mario-bros-dqn/blob/2305549fe4a2eb273d98c3811b809bd9360e024a/core/wrappers.py#L110).
