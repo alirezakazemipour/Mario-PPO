@@ -35,12 +35,12 @@
 </p>
 
 ## Usage
-### How to run
 
-- **First, Don't forget to insert your [comet.ml](https://www.comet.ml) configurations in this line:  
+- **First, Don't forget to insert your [comet.ml](https://www.comet.ml) configurations in this line**:  
 ```python
 experiment = Experiment() # Add your Comet configs!
 ```
+### How to run
 
 ```bash
 usage: main.py [-h] [--world WORLD] [--stage STAGE]
