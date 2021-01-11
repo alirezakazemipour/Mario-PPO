@@ -36,7 +36,7 @@
 
 ## Usage
 
-- **First, Don't forget to insert your [comet.ml](https://www.comet.ml) configurations in this line**:  
+- **First, Don't forget to insert your [comet.ml](https://www.comet.ml) configurations in [this line](https://github.com/alirezakazemipour/Mario-PPO/blob/484f7659f26e8531477cd3cff35a6ae745d93871/main.py#L34)**:  
 ```python
 experiment = Experiment() # Add your Comet configs!
 ```
