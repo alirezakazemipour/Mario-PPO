@@ -1,5 +1,8 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)  
 # Mario-PPO
+> For continuous domain (Mujoco) [look at this](https://github.com/alirezakazemipour/Mujoco-PPO).
+
+
 ## 29 / 32 Levels Completed (**Let the page to be fully loaded**)!
 
 <p align="left">
